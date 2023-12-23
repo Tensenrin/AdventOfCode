@@ -1,18 +1,20 @@
 package year2015;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
-public class DayOne {
+
+public class Day1 {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner fileRead = new Scanner(new File("resources/day1.txt"));
+        Scanner fileRead = new Scanner(new File("resources/2015/day1-inputs.txt"));
         String line = fileRead.nextLine();
         char[] charArray = line.toCharArray();
         int currentFloor = 0;
 
-        System.out.println("These instructions take Santa to floor: "
+        System.out.println("Part 1: These instructions take Santa to floor: "
                 + instructionDicipher(charArray, currentFloor).get(0)
-                + "\nThe position of the character that takes him to the basement is "
+                + "\nPart 2: The position of the character that takes him to the basement is "
                 + instructionDicipher(charArray, currentFloor).get(1));
     }
 
@@ -38,7 +40,6 @@ public class DayOne {
         }
         values.add(currentFloor);
         values.add(positionOfBasementCharacter);
-        System.out.println(values.size());
         return values;
     }
 }
