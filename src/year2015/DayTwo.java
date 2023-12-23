@@ -21,7 +21,7 @@ public class DayTwo {
             int surfaceArea = surfaceAreaCalculator(length,width,height);
             totalSquareFeet += surfaceArea;
 
-            int ribbon = ribbonEfficencyCalculator(length,width,height);
+            int ribbon = ribbonEfficiencyCalculator(length,width,height);
             totalRibbon += ribbon;
         }
         System.out.println("Part 1 - Total wrapping paper to order: " + totalSquareFeet
@@ -37,7 +37,7 @@ public class DayTwo {
         return surfaceArea + smallestSide;
     }
 
-    public static int ribbonEfficencyCalculator(Integer length, Integer width, Integer height) {
+    public static int ribbonEfficiencyCalculator(Integer length, Integer width, Integer height) {
         // finding the maximum dimension
         int maxDimension = Math.max(Math.max(length,width), height);
 
