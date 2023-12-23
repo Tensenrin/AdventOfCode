@@ -4,8 +4,7 @@ import java.util.Scanner;
 import java.io.File;
 public class DayTwo {
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner fileRead = new Scanner(new File ("X:\\IMPORTANT JAVA FILES\\AdventOfCode\\src\\year2015" +
-                "\\puzzle_inputs\\day2.txt"));
+        Scanner fileRead = new Scanner(new File ("resources/day2.txt"));
         int totalSquareFeet = 0;
         int totalRibbon = 0;
         while(fileRead.hasNext()) {
@@ -39,7 +38,6 @@ public class DayTwo {
     }
 
     public static int ribbonEfficencyCalculator(Integer length, Integer width, Integer height) {
-
         // finding the maximum dimension
         int maxDimension = Math.max(Math.max(length,width), height);
 
