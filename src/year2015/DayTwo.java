@@ -28,6 +28,7 @@ public class DayTwo {
                 + "\nPart 2 - Total feet of ribbon to order: " + totalRibbon);
     }
     public static int surfaceAreaCalculator(Integer length, Integer width, Integer height) {
+
         // separating these into arrays as we will need to use their raw values (no multiplication by 2) later on.
         int[] surfaceAreaParts = {(length*width), (width*height), (height*length)};
         int surfaceArea = 2*surfaceAreaParts[0] + 2*surfaceAreaParts[1] + 2*surfaceAreaParts[2];
@@ -38,6 +39,7 @@ public class DayTwo {
     }
 
     public static int ribbonEfficiencyCalculator(Integer length, Integer width, Integer height) {
+
         // finding the maximum dimension
         int maxDimension = Math.max(Math.max(length,width), height);
 
