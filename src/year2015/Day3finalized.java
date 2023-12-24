@@ -32,11 +32,12 @@ public class Day3finalized {
 
     public static void PartOne(String line) {
         ArrayList<Integer[]> markedAddresses = housesSantaVisited(line);
-        int housesVisited = trueHousesSantaVisited(markedAddresses);
-        System.out.println("Part 1 - Houses that Santa has visited: " + (housesVisited + 1) /*1 to account for starting position*/);
+        int housesVisited = trueHousesSantaVisited(markedAddresses) + 1; // +1 to account for starting position
+        System.out.println("Part 1 - Houses that Santa has visited: " + housesVisited);
     }
 
     public static void PartTwo(String line) {
+
         // Initialize string builders for Santa and Robo-Santa
         StringBuilder santaMoves = new StringBuilder();
         StringBuilder roboSantaMoves = new StringBuilder();
@@ -49,6 +50,7 @@ public class Day3finalized {
                 santaMoves.append(line.charAt(i));
             }
         }
+
         // Get the lists of houses visited by Santa and Robo-Santa
         ArrayList<Integer[]> falseSantaMoves = housesSantaVisited(santaMoves.toString());
         ArrayList<Integer[]> falseRoboSantaMoves = housesSantaVisited(roboSantaMoves.toString());
@@ -68,7 +70,7 @@ public class Day3finalized {
 
     public static ArrayList<Integer[]> housesSantaVisited(String str) {
 
-        // convers the string to a char array so the program can read the directions individually.
+        // converts the string to a char array so the program can read the directions individually.
         char[] charArray = str.toCharArray();
         int stepsX = 0;
         int stepsY = 0;
@@ -120,11 +122,4 @@ public class Day3finalized {
         return housesVisited;
     }
 
-    public static ArrayList<Integer[]> santaAndRoboSantaStepsMerger(ArrayList<Integer[]> falseSantaMoves, ArrayList<Integer[]> falseRoboSantaMoves) {
-        ArrayList<Integer[]> combinedList = new ArrayList<>();
-        combinedList.addAll(falseSantaMoves);
-        combinedList.addAll(falseRoboSantaMoves);
-
-        return combinedList;
-    }
 }
