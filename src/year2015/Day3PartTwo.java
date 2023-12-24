@@ -1,12 +1,12 @@
 package year2015;
 
-import java.lang.reflect.Array;
-import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
-public class Day3 {
-
+public class Day3PartTwo {
     // The cardinal directions
     private static String NORTH = "^";
     private static String EAST = ">";
@@ -14,20 +14,39 @@ public class Day3 {
     private static String WEST = "<";
 
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner fileRead = new Scanner(new File("resources/2015/test-input.txt"));
+        Scanner fileRead = new Scanner(new File("resources/2015/day3-inputs.txt"));
         String line = fileRead.next();
-        ArrayList<Integer[]> markedAddresses = housesSantaVisited(line);
-        int housesVisited = trueHousesSantaVisited(markedAddresses);
-        System.out.println("Part 1 - Houses that Santa has visited: " + housesVisited);
+
+        StringBuilder roboStringBuilder = new StringBuilder();
+        for (int i = 0; i < line.length(); i += 2) {
+            roboStringBuilder.append(line.charAt(i));
+        }
+        System.out.println(roboStringBuilder);
+
+        StringBuilder santaStringBuilder = new StringBuilder();
+        for (int i = 1; i < line.length(); i += 2) {
+            santaStringBuilder.append(line.charAt(i));
+        }
+        System.out.println(santaStringBuilder);
+
+        String santaMoves = santaStringBuilder.toString();
+        String roboSantaMoves = roboStringBuilder.toString();
+        ArrayList<Integer[]> falseSantaMoves = housesSantaVisited(santaMoves);
+        ArrayList<Integer[]> falseRoboSantaMoves = housesSantaVisited(roboSantaMoves);
+        ArrayList<Integer[]> totalFalseSteps = mergeArrayLists(falseSantaMoves, falseRoboSantaMoves);
+        Integer[] startingPosition = {0, 0};
+        totalFalseSteps.add(startingPosition);
+        int trueCombinedSteps = trueHousesSantaVisited(totalFalseSteps);
+
+        System.out.println(trueCombinedSteps);
+
     }
 
-    public static ArrayList<Integer[]> housesSantaVisited(String line) {
-        char[] charArray = line.toCharArray();
+    public static ArrayList<Integer[]> housesSantaVisited(String santaType) {
+        char[] charArray = santaType.toCharArray();
         int stepsX = 0;
         int stepsY = 0;
         ArrayList<Integer[]> steps = new ArrayList<>();
-        Integer[] startingPosition = {0, 0};
-        steps.add(startingPosition);
         for (int i = 0; i < charArray.length; i++) {
             String direction = String.valueOf(charArray[i]);
             // directions
@@ -64,22 +83,17 @@ public class Day3 {
         return housesVisited;
     }
 
-    // !! part two is unfinished !!
-    public static void santaAndRoboSanta(String line) {
-        StringBuilder roboSantaMoves = new StringBuilder();
-        for (int i = 0; i < line.length(); i += 2) {
-            roboSantaMoves.append(line.charAt(i));
+    public static ArrayList<Integer[]> mergeArrayLists(ArrayList<Integer[]> list1, ArrayList<Integer[]> list2) {
+        ArrayList<Integer[]> combinedList = new ArrayList<>();
+
+        for (Integer[] arr : list1) {
+            combinedList.add(arr);
         }
-        System.out.println(roboSantaMoves);
-        ArrayList<Character> santaSteps = new ArrayList<>();
-        ArrayList<Character> roboSantaSteps = new ArrayList<>();
-        for (int i = 0; i < line.length(); i++) {
-            if (i % 2 == 0) {
-                santaSteps.add(line.charAt(i));
-            } else {
-                roboSantaSteps.add(line.charAt(i));
-            }
+
+        for (Integer[] arr : list2) {
+            combinedList.add(arr);
         }
+
+        return combinedList;
     }
 }
-
