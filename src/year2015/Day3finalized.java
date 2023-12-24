@@ -83,10 +83,10 @@ public class Day3finalized {
             // cardinal directions. North and East result in a positive 1, South and West result in negative 1.
             if (direction.equals(NORTH)) {
                 stepsY += 1;
-            } else if (direction.equals(SOUTH)) {
-                stepsY -= 1;
             } else if (direction.equals(EAST)) {
                 stepsX += 1;
+            } else if (direction.equals(SOUTH)) {
+                stepsY -= 1;
             } else if (direction.equals(WEST)) {
                 stepsX -= 1;
             }
