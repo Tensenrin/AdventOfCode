@@ -18,6 +18,8 @@ public class Day3finalized {
         Scanner fileRead = new Scanner(new File("resources/2015/day3-inputs.txt"));
         String line = fileRead.next();
         Scanner scanner = new Scanner(System.in);
+
+        // giving the user a choice for part 1 or part 2 of Day 3.
         System.out.println("'1' for part 1, '2' for part 2");
         int userChoice = scanner.nextInt();
         if (userChoice == 1) {
@@ -35,34 +37,48 @@ public class Day3finalized {
     }
 
     public static void PartTwo(String line) {
-        StringBuilder roboStringBuilder = new StringBuilder();
-        for (int i = 0; i < line.length(); i += 2) {
-            roboStringBuilder.append(line.charAt(i));
+        // Initialize string builders for Santa and Robo-Santa
+        StringBuilder santaMoves = new StringBuilder();
+        StringBuilder roboSantaMoves = new StringBuilder();
+
+        // Separate Santa and Robo-Santa moves
+        for (int i = 0; i < line.length(); i++) {
+            if (i % 2 == 0) {
+                roboSantaMoves.append(line.charAt(i));
+            } else {
+                santaMoves.append(line.charAt(i));
+            }
         }
-        StringBuilder santaStringBuilder = new StringBuilder();
-        for (int i = 1; i < line.length(); i += 2) {
-            santaStringBuilder.append(line.charAt(i));
-        }
-        String santaMoves = santaStringBuilder.toString();
-        String roboSantaMoves = roboStringBuilder.toString();
-        ArrayList<Integer[]> falseSantaMoves = housesSantaVisited(santaMoves);
-        ArrayList<Integer[]> falseRoboSantaMoves = housesSantaVisited(roboSantaMoves);
-        ArrayList<Integer[]> totalFalseSteps = santaAndRoboSantaStepsMerger(falseSantaMoves, falseRoboSantaMoves);
-        Integer[] startingPosition = {0, 0};
-        totalFalseSteps.add(startingPosition);
+        // Get the lists of houses visited by Santa and Robo-Santa
+        ArrayList<Integer[]> falseSantaMoves = housesSantaVisited(santaMoves.toString());
+        ArrayList<Integer[]> falseRoboSantaMoves = housesSantaVisited(roboSantaMoves.toString());
+
+        // Combine Santa and Robo-Santa moves
+        ArrayList<Integer[]> totalFalseSteps = new ArrayList<>(falseSantaMoves);
+        totalFalseSteps.addAll(falseRoboSantaMoves);
+
+        // Add the starting position
+        totalFalseSteps.add(new Integer[]{0, 0});
+
+        // Calculate the count of true houses visited
         int trueCombinedSteps = trueHousesSantaVisited(totalFalseSteps);
         System.out.println(trueCombinedSteps);
 
     }
 
-    public static ArrayList<Integer[]> housesSantaVisited(String santaType) {
-        char[] charArray = santaType.toCharArray();
+    public static ArrayList<Integer[]> housesSantaVisited(String str) {
+
+        // convers the string to a char array so the program can read the directions individually.
+        char[] charArray = str.toCharArray();
         int stepsX = 0;
         int stepsY = 0;
         ArrayList<Integer[]> steps = new ArrayList<>();
+
+        // for-loop checks the input of each character and decides which cardinal direction they are.
         for (int i = 0; i < charArray.length; i++) {
             String direction = String.valueOf(charArray[i]);
-            // directions
+
+            // cardinal directions. North and East result in a positive 1, South and West result in negative 1.
             if (direction.equals(NORTH)) {
                 stepsY += 1;
             } else if (direction.equals(SOUTH)) {
@@ -72,6 +88,8 @@ public class Day3finalized {
             } else if (direction.equals(WEST)) {
                 stepsX -= 1;
             }
+
+            // creates an array of the current coordinates, e.g. {0, 1} and appends them to the steps array.
             Integer[] currentLocation = {stepsY, stepsX};
             steps.add(currentLocation);
         }
@@ -81,14 +99,20 @@ public class Day3finalized {
     public static int trueHousesSantaVisited(ArrayList<Integer[]> markedAddresses) {
         boolean repeatedCoordinates;
         int housesVisited = 0;
+
+        // for-loop that checks for duplicate address entries.
         for (int i = 0; i < markedAddresses.size(); i++) {
             repeatedCoordinates = false;
+
+            // nested for-loop gets the entry next to the one being checked. i=0, j=1, first entry compared to second.
             for (int j = i + 1; j < markedAddresses.size(); j++) {
                 if (Arrays.toString(markedAddresses.get(i)).equals(Arrays.toString(markedAddresses.get(j)))) {
                     repeatedCoordinates = true;
                     break;
                 }
             }
+
+            // if coordinate is not repeated then it's a house that's not been visited.
             if (!repeatedCoordinates) {
                 housesVisited += 1;
             }
