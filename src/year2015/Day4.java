@@ -14,9 +14,10 @@ public class Day4 {
     public static void main(String[] args) {
         String asciiValue = convertToASCII(PUZZLE_INPUT);
         System.out.println(asciiValue);
-        ArrayList<String> hexValue = convertToHexadecimal(asciiValue);
-        getMd5Hash()
-
+        String hexValue = convertToHexadecimal(asciiValue);
+        System.out.println(hexValue);
+        String MD5Value = getMd5Hash(hexValue);
+        System.out.println(MD5Value);
     }
 
     public static String convertToASCII(String input) {
@@ -30,13 +31,13 @@ public class Day4 {
         return ASCII;
     }
 
-    public static ArrayList<String> convertToHexadecimal(String input) {
+    public static String convertToHexadecimal(String input) {
         String[] numbers = input.split(" ");
-        ArrayList<String> hexNums = new ArrayList<>();
+        String hexNums = "";
         for (int i = 0; i < numbers.length; i++) {
             Integer asciiNum = Integer.parseInt(numbers[i]);
             String hexValue = Integer.toHexString(asciiNum);
-            hexNums.add(hexValue);
+            hexNums += hexValue + " " // Do I need these spaces for the getMD5Hash method?;
         }
         return hexNums;
     }
