@@ -4,43 +4,36 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 public class Day4 {
-    private static final String PUZZLE_INPUT = "abcdef";
+    private static final String PUZZLE_INPUT = "yzbqklnj";
+    private static final String ZEROS_TEMPLATE = "00000%s";
 
     public static void main(String[] args) {
-        String asciiValue = convertToASCII(PUZZLE_INPUT);
-        System.out.println(asciiValue);
-        String hexValue = convertToHexadecimal(asciiValue);
-        System.out.println(hexValue);
-        String MD5Value = getMd5Hash(hexValue);
-        System.out.println(MD5Value);
+        boolean partDecider = true;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("'1' for part 1, '2' for part 2 (takes longer)");
+        int userInput = scanner.nextInt();
+        if (userInput == 2) {
+            partDecider = false;
+        }
+        Integer numbers = 0;
+        boolean searchProcess = true;
+
+        while (searchProcess) {
+            String check = PUZZLE_INPUT + numbers;
+            String md5Encoded = getMd5Hash(check);
+
+            // checking whether it starts with 5 zeros, or using the ternary for 6 zeros
+            if (md5Encoded.startsWith(String.format(ZEROS_TEMPLATE, partDecider ? "" : "0"))) {
+                searchProcess = false;
+            } else {
+                numbers++;
+            }
+        }
+        System.out.println(numbers);
     }
 
-    public static String convertToASCII(String input) {
-        int asciiValue;
-        ArrayList<Character> inputChars = new ArrayList<>();
-        String ASCII = "";
-        for (char character : input.toCharArray()) {
-            asciiValue = (int) character; // Get ASCII value of the character
-            ASCII += asciiValue + " "; // Append the ASCII value to the ASCII string
-        }
-        return ASCII;
-    }
-
-    public static String convertToHexadecimal(String input) {
-        String[] numbers = input.split(" ");
-        String hexNums = "";
-        for (int i = 0; i < numbers.length; i++) {
-            Integer asciiNum = Integer.parseInt(numbers[i]);
-            String hexValue = Integer.toHexString(asciiNum);
-            hexNums += hexValue + " " // Do I need these spaces for the getMD5Hash method?;
-        }
-        return hexNums;
-    }
 
     // Friend gave me this method, he got it from net.
     public static String getMd5Hash(String input) {
