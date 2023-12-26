@@ -23,7 +23,6 @@ public class Day5 {
 
     public static void main(String[] args) throws FileNotFoundException {
         Scanner readFile = new Scanner(new File("resources/2015/day5-inputs.txt"));
-        boolean isRunning = true;
         int niceNum = 0;
         ArrayList<String> lines = new ArrayList<>();
         while (readFile.hasNext()) {
@@ -42,7 +41,25 @@ public class Day5 {
                 }
             }
         }
-        System.out.println(lines.size());
+        boolean isRunning = true;
+        int counter = 0;
+        while (isRunning) {
+            String[] line = lines.get(counter).split("");
+            for (int i = 0; i < line.length; i++) {
+                for (int j = 0; j < NAUGHTY_PROPERTIES.length; j++) {
+                    if (line[i].contains(NAUGHTY_PROPERTIES[j])) {
+                        lines.remove(concatenateArray(line));
+                        counter++;
+
+                        if (counter < lines.size()) {
+                            line = lines.get(counter).split("");
+                            break;
+                        }
+                    }
+                }
+            }
+            counter++;
+        }
         System.out.println(lines);
 
     }
