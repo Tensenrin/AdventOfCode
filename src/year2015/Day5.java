@@ -2,73 +2,52 @@ package year2015;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.nio.file.ReadOnlyFileSystemException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*
-What makes a 'nice' string?
-- contains at least THREE vowels
-- contains one letter that appears TWICE in a row (aa)
-- does not contain the naughty strings, even if it fulfills above requirements
- */
 public class Day5 {
 
     // properties
-    private static final String[] NAUGHTY_PROPERTIES = {"ab", "cd", "pq", "xy"};
-    private static final char[] VOWELS = {'a', 'e', 'i', 'o', 'u'};
+    private static final String[] VOWELS = {"a", "e", "i", "o", "u"};
+    private static final String[] REPEATED_CHARACTERS =
+            {"aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj", "kk", "ll", "mm", "nn",
+                    "oo", "pp", "qq", "rr", "ss", "tt", "uu", "vv", "ww", "xx", "yy", "zz"};
+    private static final String[] NAUGHTY_PROPERTIES = {"ab", "cd", "pq", "xy",};
 
     public static void main(String[] args) throws FileNotFoundException {
         Scanner readFile = new Scanner(new File("resources/2015/day5-inputs.txt"));
-        int niceNum = 0;
-        ArrayList<String> lines = new ArrayList<>();
+
+        ArrayList<String> santasList = new ArrayList<>();
+
+        // Writing all the strings on Santa's list!
         while (readFile.hasNext()) {
-            String[] line = readFile.nextLine().split("");
-            for (int i = 0; i < line.length; i++) {
-                for (int j = 0; j < VOWELS.length; j++) {
-                    if (line[i].contains(String.valueOf(VOWELS[j]))) {
-//                        System.out.println("Vowel " + VOWELS[j] + " detected at " + i);
-                        lines.add(concatenateArray(line));
-
-                        if (readFile.hasNext()) {
-                            line = readFile.nextLine().split("");
-                            break;
-                        }
-                    }
-                }
-            }
+            santasList.add(readFile.nextLine());
         }
-        boolean isRunning = true;
-        int counter = 0;
-        while (isRunning) {
-            String[] line = lines.get(counter).split("");
-            for (int i = 0; i < line.length; i++) {
-                for (int j = 0; j < NAUGHTY_PROPERTIES.length; j++) {
-                    if (line[i].contains(NAUGHTY_PROPERTIES[j])) {
-                        lines.remove(concatenateArray(line));
-                        counter++;
+        ArrayList<String> vowelDetectionList = arrayFilter(santasList, VOWELS);
+        ArrayList<String> repeatedDetectionList = arrayFilter(vowelDetectionList, REPEATED_CHARACTERS);
+        ArrayList<String> naughtyDetectionList = arrayFilter(repeatedDetectionList, NAUGHTY_PROPERTIES);
 
-                        if (counter < lines.size()) {
-                            line = lines.get(counter).split("");
-                            break;
-                        }
-                    }
-                }
-            }
-            counter++;
-        }
-        System.out.println(lines);
+        int niceStrings = repeatedDetectionList.size() - naughtyDetectionList.size();
+        System.out.println(niceStrings);
 
     }
 
-    public static String concatenateArray(String[] arr) {
-        StringBuilder result = new StringBuilder();
-        for (String str : arr) {
-            result.append(str);
+    private static ArrayList<String> arrayFilter(ArrayList<String> arr1, String[] arr2) {
+        ArrayList<String> arr = new ArrayList<>();
+        for (int i = 0; i < arr1.size(); i++) {
+            String line = arr1.get(i);
+            for (String index : arr2) {
+                Pattern p = Pattern.compile(index);
+                Matcher m = p.matcher(line);
+
+                if (m.find()) {
+                    arr.add(line);
+                    break;
+                }
+            }
         }
-        return result.toString();
+        return arr;
     }
 }
