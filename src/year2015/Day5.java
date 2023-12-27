@@ -1,3 +1,6 @@
+/*
+This only completes part 1 of Day 5.
+ */
 package year2015;
 
 import java.io.File;
@@ -7,6 +10,8 @@ import java.util.Scanner;
 
 
 public class Day5 {
+
+    // Properties
     private static final char[] VOWELS = {'a', 'e', 'i', 'o', 'u'};
     private static final String[] REPEATED_CHARACTERS =
             {"aa", "bb", "cc", "dd", "ee", "ff", "gg", "hh", "ii", "jj", "kk", "ll", "mm", "nn",
@@ -21,6 +26,7 @@ public class Day5 {
         while (readFile.hasNext()) {
             santasList.add(readFile.nextLine());
         }
+
         ArrayList<String> filteredList = filteredList(santasList);
         System.out.println(filteredList.size());
     }
@@ -45,20 +51,25 @@ public class Day5 {
 
     private static boolean hasVowels(String line) {
         int vowelCount = 0;
-        for (char c : line.toCharArray()) {
+
+        // for loop checks whether a character in the current string is a vowel, if so it updates the counter.
+        for (char character : line.toCharArray()) {
             for (char vowel : VOWELS) {
-                if (c == vowel) {
+                if (character == vowel) {
                     vowelCount++;
                     break;
                 }
             }
         }
-        return vowelCount >= 3; // Checking if there are at least three vowels
+        // Checking if there are at least three vowels
+        return vowelCount >= 3;
     }
 
     public static boolean hasRepeatedOrNaughty(String line, String[] arr) {
-        for (String pattern : arr) {
-            if (line.contains(pattern)) {
+
+        // for loop to check whether a string pattern (i.e. aa or ab) is in a string.
+        for (String strPattern : arr) {
+            if (line.contains(strPattern)) {
                 return true;
             }
         }
