@@ -25,12 +25,12 @@ public class Day5 {
         while (readFile.hasNext()) {
             santasList.add(readFile.nextLine());
         }
-        ArrayList<String> vowelDetectionList = arrayFilter(santasList, VOWELS);
-        ArrayList<String> repeatedDetectionList = arrayFilter(vowelDetectionList, REPEATED_CHARACTERS);
-        ArrayList<String> naughtyDetectionList = arrayFilter(repeatedDetectionList, NAUGHTY_PROPERTIES);
+        ArrayList<String> vowelDetectionList = arrayFilter(santasList, VOWELS); // gets all vowels
+        ArrayList<String> repeatedDetectionList = arrayFilter(vowelDetectionList, REPEATED_CHARACTERS); // gets all repeated characters in the vowels
+        ArrayList<String> naughtyDetectionList = arrayFilter(repeatedDetectionList, NAUGHTY_PROPERTIES); // gets all naughties
 
-        int niceStrings = repeatedDetectionList.size() - naughtyDetectionList.size();
-        System.out.println(niceStrings);
+
+        System.out.println(repeatedDetectionList.size() - naughtyDetectionList.size());
 
     }
 
