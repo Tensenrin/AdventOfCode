@@ -19,22 +19,10 @@ public class StreamTest {
         List<Person> hundredClub = people.stream()
                 .filter(person -> person.billions >= 100).collect(Collectors.toList());
 
-//        List<Person> hundredClub = new ArrayList<>();
-////        for (Person p : people) {
-////            if (p.billions >= 100) {
-////                hundredClub.add(p);
-////            }
-////        }
-        hundredClub.forEach(person -> System.out.println(person.name));
-
-        List<Person> largestToSmallest = people.stream()
-                .sorted(Comparator.comparing(person -> person.billions))
-                .collect(Collectors.toList());
-
-        boolean isNegative = true;
-
-        largestToSmallest.forEach(person -> System.out.println(
-                "Name: " + person.name + "\nNet worth:" + person.billions));
+        List<Person> lowestToHighest = people
+                .stream()
+                .min(Comparator.comparing(Person::getBillions))
+                .orElseThrow(NoSuchElementException::new);
     }
 
     static class Person {
@@ -45,5 +33,10 @@ public class StreamTest {
             this.name = name;
             this.billions = billions;
         }
+
+        public Integer getBillions() {
+            return billions;
+        }
+
     }
 }
